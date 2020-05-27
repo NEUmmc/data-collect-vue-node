@@ -5,7 +5,7 @@ data-collect-vue-node
 下载运行需要在sever/db文件夹中，创建db.js进行数据库配置*
 
 db.js内容如下：
-、、、
+`
 module.exports = {
     mysql: {
         host: 'localhost',
@@ -15,4 +15,4 @@ module.exports = {
         database: '你要连接的数据库名称'
     }
 }
-、、、
+`
