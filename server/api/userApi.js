@@ -61,7 +61,8 @@ router.post('/getAnswer', (req, res) => {
                     temp = []
                 }
                 temp.push({
-                    value: result[i].id + '/' + result[i].score,
+                    id:result[i].id,
+                    value: result[i].id + '/' + result[i].score + '/' + result[i].item,
                     name: result[i].item
                 })
                 if (result.length - 1 == i) {
@@ -106,7 +107,8 @@ router.post('/getOpAnswer', (req, res) => {
                     temp = []
                 }
                 temp.push({
-                    value: result[i].id + '/' + result[i].score,
+                    id:result[i].id,
+                    value: result[i].id + '/' + result[i].score + '/' + result[i].item,
                     name: result[i].item
                 })
                 if (result.length - 1 == i) {
