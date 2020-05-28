@@ -1,3 +1,4 @@
 
 node_modules
 server/db/db.js
+.DS_Store
