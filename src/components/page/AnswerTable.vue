@@ -17,17 +17,16 @@
       height="650"
     >
       <el-table-column prop="id" label="序号"></el-table-column>
-      <el-table-column prop="category_name" label="一级项目"></el-table-column>
-      <el-table-column prop="question" label="二级项目"></el-table-column>
-      <el-table-column prop="weight2" label="二级权重"></el-table-column>
-      <el-table-column prop="weight1" label="一级权重"></el-table-column>
+      <el-table-column prop="category_name" label="问题类别"></el-table-column>
+      <el-table-column prop="question" label="问题细节"></el-table-column>
+      <!-- <el-table-column prop="weight2" label="二级权重"></el-table-column>
+      <el-table-column prop="weight1" label="一级权重"></el-table-column> -->
       <el-table-column
         v-for="item in answers"
         :key="item.username"
         :prop="item.colname"
         :label="item.username"
       ></el-table-column>
-      <el-table-column prop="sum" label="小计"></el-table-column>
     </el-table>
     <br />
     <br />
@@ -53,7 +52,7 @@ export default {
       this.tableData = res;
     });
     //得到分数
-    this.$post("/api/table/getScore",{
+    this.$post("/api/table/getAnswer",{
       client_id:this.$route.query.client_id
     }).then(res => {
       this.answers = res;
@@ -61,32 +60,13 @@ export default {
         this.tableData.forEach(element => {
           user.answer.forEach((item, index) => {
             if (item.id == element.question_id) {
-              eval("element." + user.colname + "=" + item.score);
-
-              console.log(this.tableData);
+              console.log(item.answer)
+              eval("element." + user.colname + "=item.answer");
             }
           });
         });
       });
-      //求和导出小计
-      let sum = 0;
-      let count = 0;
-      let temp = 0;
-      this.tableData.forEach((element, index) => {
-        for (let i = 0; i < this.answers.length; i++) {
-          eval("temp =" + "element.score" + i);
-          if (temp != undefined) {
-            sum += parseInt(temp);
-            count++;
-          }
-        }
-        //分母不能为零
-        if (count != 0) {
-          element.sum = sum / count;
-        }
-        sum = 0;
-        count = 0;
-      });
+      
     });
   },
   methods: {
@@ -132,28 +112,28 @@ export default {
           colspan: _col
         };
       }
-      if (columnIndex === 4) {
-        const _row = this.flitterData(this.tableData).three[rowIndex];
-        const _col = _row > 0 ? 1 : 0;
-        return {
-          rowspan: _row,
-          colspan: _col
-        };
-      }
+      // if (columnIndex === 4) {
+      //   const _row = this.flitterData(this.tableData).three[rowIndex];
+      //   const _col = _row > 0 ? 1 : 0;
+      //   return {
+      //     rowspan: _row,
+      //     colspan: _col
+      //   };
+      // }
     },
     //合并表格算法
     flitterData(arr) {
       let spanOneArr = [],
         spanTwoArr = [],
-        spanThreeArr = [],
+        // spanThreeArr = [],
         concatOne = 0,
-        concatTwo = 0,
-        concatThree = 0;
+        concatTwo = 0;
+        // concatThree = 0;
       arr.forEach((item, index) => {
         if (index === 0) {
           spanOneArr.push(1);
           spanTwoArr.push(1);
-          spanThreeArr.push(1);
+          // spanThreeArr.push(1);
         } else {
           if (item.id === arr[index - 1].id) {
             //第一列需合并相同内容的判断条件
@@ -174,23 +154,23 @@ export default {
             spanTwoArr.push(1);
             concatTwo = index;
           }
-          if (
-            item.id === arr[index - 1].id &&
-            item.weight1 === arr[index - 1].weight1
-          ) {
-            //第三列需合并相同内容的判断条件
-            spanThreeArr[concatThree] += 1;
-            spanThreeArr.push(0);
-          } else {
-            spanThreeArr.push(1);
-            concatThree = index;
-          }
+          // if (
+          //   item.id === arr[index - 1].id &&
+          //   item.weight1 === arr[index - 1].weight1
+          // ) {
+          //   //第三列需合并相同内容的判断条件
+          //   spanThreeArr[concatThree] += 1;
+          //   spanThreeArr.push(0);
+          // } else {
+          //   spanThreeArr.push(1);
+          //   concatThree = index;
+          // }
         }
       });
       return {
         one: spanOneArr,
         two: spanTwoArr,
-        three: spanThreeArr
+        // three: spanThreeArr
       };
     }
   }
