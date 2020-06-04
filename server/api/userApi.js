@@ -61,7 +61,7 @@ router.post('/getAnswer', (req, res) => {
                     temp = []
                 }
                 temp.push({
-                    id:result[i].id,
+                    id: result[i].id,
                     value: result[i].id + '/' + result[i].score + '/' + result[i].item,
                     name: result[i].item
                 })
@@ -107,7 +107,7 @@ router.post('/getOpAnswer', (req, res) => {
                     temp = []
                 }
                 temp.push({
-                    id:result[i].id,
+                    id: result[i].id,
                     value: result[i].id + '/' + result[i].score + '/' + result[i].item,
                     name: result[i].item
                 })
@@ -122,6 +122,29 @@ router.post('/getOpAnswer', (req, res) => {
     })
 });
 
+router.post('/getChecked', (req, res) => {
+    var sql = $sql.record.find_record;
+    var data = req.body
+    conn.query(sql, [data.user_id, data.client_id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            if (result.length == 0) {
+                res.send('没有记录')
+            } else {
+                const querystring = require("querystring");
+                answers = result[0].answer.split(',')
+                temp = []
+                answers.forEach(element => {
+                    temp.push(querystring.parse(element))
+                })
+                res.send(temp)
+            }
+        }
+    })
+});
+
 router.post('/submit', (req, res) => {
     var sql = $sql.record.save_answer;
     var sql1 = $sql.record.update_answer;
@@ -130,7 +153,7 @@ router.post('/submit', (req, res) => {
     var record_id = ''
     const querystring = require("querystring");
     let results = ''
-
+    console.log('触发路由为submit', data)
     data.result.forEach((element, index) => {
         if (index == data.result.length - 1) {
             results += querystring.stringify(element)
