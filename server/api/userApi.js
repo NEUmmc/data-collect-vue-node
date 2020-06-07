@@ -30,6 +30,20 @@ router.post('/login', (req, res) => {
     })
 });
 
+router.post('/getSource', (req, res) => {
+    var sql = $sql.user.select;
+    var lst = ['无'];
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            temp = result.filter(x => x.user_type === '1').map(x => x.username)
+            lst.push(...temp);
+            res.send(lst);
+        }
+    })
+});
+
 router.post('/getQuestion', (req, res) => {
     var sqlStringList = $sql.question.get_question.split('?');//玄学bug，可能是update后表格出现了玄学变化,导致？传参数死活实现不了
     var user = req.body.user
