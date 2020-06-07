@@ -12,20 +12,20 @@
       id="out-table"
       :data="tableData"
       border
-      style="width: 100%;"
       :span-method="objectSpanMethod"
       height="650"
     >
-      <el-table-column prop="id" label="序号"></el-table-column>
-      <el-table-column prop="category_name" label="问题类别"></el-table-column>
-      <el-table-column prop="question" label="问题细节"></el-table-column>
-      <el-table-column prop="weight2" label="二级权重"></el-table-column>
-      <el-table-column prop="weight1" label="一级权重"></el-table-column>
+      <el-table-column  prop="id" label="序号"></el-table-column>
+      <el-table-column  prop="category_name" label="问题类别"></el-table-column>
+      <el-table-column  prop="question" label="问题细节"></el-table-column>
+      <el-table-column  prop="weight2" label="二级权重"></el-table-column>
+      <el-table-column  prop="weight1" label="一级权重"></el-table-column>
       <el-table-column
         v-for="item in answers"
         :key="item.username"
         :prop="item.colname"
         :label="item.username"
+        min-width="100"
       ></el-table-column>
       <el-table-column prop="sum" label="分数小计"></el-table-column>
     </el-table>
@@ -61,7 +61,8 @@ export default {
         this.tableData.forEach(element => {
           user.answer.forEach((item, index) => {
             if (item.id == element.question_id) {
-              eval("element." + user.colname + "=" + item.score);
+              let result = item.score  + ' ｜ ' + item.answer
+              eval("element." + user.colname + "= result");
 
               console.log(this.tableData);
             }
