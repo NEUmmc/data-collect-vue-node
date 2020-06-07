@@ -65,7 +65,12 @@ router.post('/getFinClient', (req, res) => {
     var sql = $sql.record.select_userid;
     var data = req.body;
     var sql1 = $sql.client.select;
+    var sqlStringList = $sql.question.get_question.split('?');
+    let user_type = data.user_type; 
+    var sql2 = sqlStringList[0] + user_type + sqlStringList[1]
     var finClients = [];
+    var halfFinClients = [];
+    // const querystring = require("querystring");//因为只需要确定记录数量就可以确定是否完成答题
     conn.query(sql, data.user, (err, result) => {
         if (err) {
             console.log(err);
@@ -75,12 +80,23 @@ router.post('/getFinClient', (req, res) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    
-                    result.forEach(element => {
-                        temp = clients.filter(a => a.id == element.client_id)
-                        finClients.push(temp[0])
-                    });
-                    res.send(finClients)
+
+                    conn.query(sql2, (err, questions) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            result.forEach(element => {
+                                let num = element.answer.split(',').length
+                                let temp1 = clients.filter(a => a.id == element.client_id && questions.length <= num)
+                                finClients.push(...temp1)
+                                let temp2 = clients.filter(a => a.id == element.client_id && questions.length > num)
+                                halfFinClients.push(...temp2)
+                            });
+                            let finalResult = { half: halfFinClients, fin: finClients }
+                            res.send(finalResult)
+                        }
+                    })
+
                 }
             })
 
