@@ -10,11 +10,20 @@ conn.connect();
 
 router.post('/getTable', (req, res) => {
     var sql = $sql.table.select;
+    console.log('触发的路由：/getTable')
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
         } else {
             console.log(result);
+            result.forEach(e => {
+                if(e.category_name === e.question){
+                    e.question =''
+                }
+                if(e.weight2 === e.weight1){
+                    e.weight2 =''
+                }
+            })
             res.send(result)
         }
     })

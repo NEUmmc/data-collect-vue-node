@@ -17,8 +17,8 @@
       height="650"
     >
       <el-table-column prop="id" label="序号"></el-table-column>
-      <el-table-column prop="category_name" label="一级项目"></el-table-column>
-      <el-table-column prop="question" label="二级项目"></el-table-column>
+      <el-table-column prop="category_name" label="问题类别"></el-table-column>
+      <el-table-column prop="question" label="问题细节"></el-table-column>
       <el-table-column prop="weight2" label="二级权重"></el-table-column>
       <el-table-column prop="weight1" label="一级权重"></el-table-column>
       <el-table-column
@@ -27,7 +27,7 @@
         :prop="item.colname"
         :label="item.username"
       ></el-table-column>
-      <el-table-column prop="sum" label="小计"></el-table-column>
+      <el-table-column prop="sum" label="分数小计"></el-table-column>
     </el-table>
     <br />
     <br />
