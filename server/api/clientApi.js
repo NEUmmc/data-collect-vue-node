@@ -70,7 +70,7 @@ router.post('/getFinClient', (req, res) => {
     var sql2 = sqlStringList[0] + user_type + sqlStringList[1]
     var finClients = [];
     var halfFinClients = [];
-    // const querystring = require("querystring");//因为只需要确定记录数量就可以确定是否完成答题
+    const querystring = require("querystring");//因为需要确定type = 1记录数量 来确定是否完成答题
     conn.query(sql, data.user, (err, result) => {
         if (err) {
             console.log(err);
@@ -86,7 +86,7 @@ router.post('/getFinClient', (req, res) => {
                             console.log(err);
                         } else {
                             result.forEach(element => {
-                                let num = element.answer.split(',').length
+                                let num = element.answer.split(',').filter(x => querystring.parse(x).type == 1).length
                                 let temp1 = clients.filter(a => a.id == element.client_id && questions.length <= num)
                                 finClients.push(...temp1)
                                 let temp2 = clients.filter(a => a.id == element.client_id && questions.length > num)

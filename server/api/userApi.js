@@ -76,7 +76,7 @@ router.post('/getAnswer', (req, res) => {
                 }
                 temp.push({
                     id: result[i].id,
-                    value: result[i].id + '/' + result[i].score + '/' + result[i].item,
+                    value: result[i].id + '/' + result[i].score + '/' + result[i].item + '/' + 1,//必答题为1
                     name: result[i].item
                 })
                 if (result.length - 1 == i) {
@@ -122,7 +122,7 @@ router.post('/getOpAnswer', (req, res) => {
                 }
                 temp.push({
                     id: result[i].id,
-                    value: result[i].id + '/' + result[i].score + '/' + result[i].item,
+                    value: result[i].id + '/' + result[i].score + '/' + result[i].item + '/' + 2,//选答题为2
                     name: result[i].item
                 })
                 if (result.length - 1 == i) {
