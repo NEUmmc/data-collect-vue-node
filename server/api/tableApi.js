@@ -51,35 +51,4 @@ router.post('/getScore', (req, res) => {
     })
 });
 
-router.post('/getAnswer', (req, res) => {
-    var sql = $sql.record.select_clientid;
-    var data = req.body;
-    const querystring = require("querystring");
-    conn.query(sql, data.client_id,(err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(result);
-            final = []
-            temp = []
-            result.forEach((element,index) => {
-                username = element.username;
-                colname ='score'+index
-                answers = element.answer.split(',')
-                answers.forEach(element => {
-                    temp.push(querystring.parse(element))
-                })
-
-                final.push({
-                    colname: colname,
-                    username: username,
-                    answer: temp
-                })
-                temp = []
-            });
-            res.send(final)
-        }
-    })
-});
-
 module.exports = router;

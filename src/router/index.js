@@ -26,12 +26,8 @@ export default new Router({
           component: resolve => require(['../components/page/Home.vue'], resolve)
         },
         {
-          path: '/scoretable',
-          component: resolve => require(['../components/page/ScoreTable.vue'], resolve)
-        },
-        {
           path: '/table',
-          component: resolve => require(['../components/page/AnswerTable.vue'], resolve)
+          component: resolve => require(['../components/page/Table.vue'], resolve)
         },
         {
           path: '/client',
