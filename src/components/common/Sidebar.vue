@@ -47,6 +47,10 @@ export default {
                     {
                     index: '/client',
                     title: '用户报表'
+                    },
+                    {
+                    index: '/user',
+                    title: '员工管理'
                     }
                 ]
             },

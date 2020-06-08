@@ -30,6 +30,50 @@ router.post('/login', (req, res) => {
     })
 });
 
+router.post('/addUser', (req, res) => {
+    var sql = $sql.user.add;
+    var data = req.body;
+    conn.query(sql,[data.username, data.password, data.user_type], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            res.send('新增成功')
+        }
+    })
+});
+
+router.post('/getUser', (req, res) => {
+    console.log('触发对路由：' + '/getUser')
+    var sql = $sql.user.select;
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            res.send(result)
+        }
+    })
+});
+
+router.post('/getUserTypeName', (req, res) => {
+    // console.log('触发对路由：' + '/getUserTypeName')
+    var sql = $sql.user_type.select;
+    var final = []
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            result.forEach(x => {
+                let temp = {value:x.id, name:x.name}
+                final.push(temp)
+            })
+            res.send(final)
+        }
+    })
+});
+
 router.post('/getSource', (req, res) => {
     var sql = $sql.user.select;
     var lst = ['无'];

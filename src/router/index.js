@@ -33,6 +33,10 @@ export default new Router({
           path: '/client',
           component: resolve => require(['../components/page/Client.vue'], resolve)
         },
+        {
+          path: '/user',
+          component: resolve => require(['../components/page/User.vue'], resolve)
+        },
       ]
     }
   ]

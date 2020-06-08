@@ -6,6 +6,10 @@ var sqlMap = {
         select: 'select * from user',
         select_username: 'select * from user where username = ?',
         select_id: 'select * from user where id = ?',
+        add:'insert into user (username,password,user_type) values (?,?,?)',
+    },
+    user_type:{
+        select: 'select * from user_type'
     },
     table: {
         select: 'select Q.id as question_id, C.id,category_name,question,Q.weight as weight2,C.weight as weight1 from question as Q,question_category as C where Q.category_id = C.id',
