@@ -92,7 +92,7 @@ router.post('/getFinClient', (req, res) => {
                                 let temp2 = clients.filter(a => a.id == element.client_id && questions.length > num)
                                 halfFinClients.push(...temp2)
                             });
-                            let finalResult = { half: halfFinClients, fin: finClients }
+                            let finalResult = { half: halfFinClients, fin: finClients , clients: clients.length}
                             res.send(finalResult)
                         }
                     })
