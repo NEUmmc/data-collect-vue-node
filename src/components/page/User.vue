@@ -16,7 +16,7 @@
       style="width: 100%"
       height="650"
     >
-      <el-table-column prop="id" label="员工ID"></el-table-column>
+      <el-table-column prop="id" sortable label="员工ID"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="password" label="密码"></el-table-column>
       <el-table-column prop="name" label="员工类型"></el-table-column>

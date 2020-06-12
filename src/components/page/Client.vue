@@ -7,8 +7,8 @@
     </el-breadcrumb>
     <br />
     <br />
-    <el-table :data="tableData" style="width: 100%;" height="700">
-      <el-table-column prop="id" label="订单编号"></el-table-column>
+    <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;" height="700">
+      <el-table-column prop="id" sortable label="订单编号"></el-table-column>
       <el-table-column prop="clientname" label="客户名"></el-table-column>
       <el-table-column prop="sex" label="性别"></el-table-column>
       <el-table-column prop="idcard" label="身份证号"></el-table-column>
@@ -24,7 +24,15 @@
       </el-table-column>
     </el-table>
     <br />
-    <br />
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[12,14,16,tableData.length]"
+      :page-size="pagesize"
+      layout="total,sizes,prev,pager,next,jumper"
+      :total="tableData.length"
+    ></el-pagination>
   </div>
 </template>
 
@@ -32,7 +40,9 @@
 export default {
   data() {
     return {
-      tableData: []
+      tableData: [],
+      currentPage: 1, //默认页码为1
+      pagesize: 12, //默认一页显示11条
     };
   },
   mounted() {
@@ -42,6 +52,14 @@ export default {
     });
   },
   methods: {
+    handleSizeChange(size) {
+      //一页显示多少条
+      this.pagesize = size;
+    },
+    handleCurrentChange(currentPage) {
+      //页码更改方法
+      this.currentPage = currentPage;
+    },
     look(index, row) {
       console.log(row.id)
       this.$router.push({path:'/table',query: { client_id: row.id }});
