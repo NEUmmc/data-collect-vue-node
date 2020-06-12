@@ -11,7 +11,11 @@
     <el-button type="danger" icon="el-icon-refresh" @click="clear"></el-button>
     <br />
     <br />
-    <el-table :data="tableData" style="width: 100%" height="650">
+    <el-table
+      :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+      style="width: 100%"
+      height="650"
+    >
       <el-table-column prop="id" label="员工ID"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="password" label="密码"></el-table-column>
@@ -27,7 +31,15 @@
       </el-table-column>
     </el-table>
     <br />
-    <br />
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[10,12,14,tableData.length]"
+      :page-size="pagesize"
+      layout="total,sizes,prev,pager,next,jumper"
+      :total="tableData.length"
+    ></el-pagination>
     <el-dialog title="新增员工" :visible.sync="dialogVisible" width="30%">
       <span>员工类型：</span>
       <el-select v-model="user_type" placeholder="请选择">
@@ -112,6 +124,8 @@ export default {
   inject: ["reload"],
   data() {
     return {
+      currentPage: 1, //默认页码为1
+      pagesize: 10, //默认一页显示11条
       row_username: "",
       row_usertype: "",
       user_type: "",
@@ -152,6 +166,14 @@ export default {
     });
   },
   methods: {
+    handleSizeChange(size) {
+      //一页显示多少条
+      this.pagesize = size;
+    },
+    handleCurrentChange(currentPage) {
+      //页码更改方法
+      this.currentPage = currentPage;
+    },
     clear() {
       this.reload();
     },
