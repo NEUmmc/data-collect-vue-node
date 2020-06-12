@@ -20,6 +20,32 @@ router.post('/getClient', (req, res) => {
     })
 });
 
+router.post('/getClientById', (req, res) => {
+    var sql = $sql.client.select_id;
+    var data = req.body;
+    conn.query(sql, data.id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(...result)
+        }
+    })
+});
+
+router.post('/getClientByPhone', (req, res) => {
+    var sqlStringList = $sql.client.select_phone.split('?');
+    let data = req.body.phone; 
+    var sql = sqlStringList[0] + data + sqlStringList[1]
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            res.send(result)
+        }
+    })
+});
+
 router.post('/add', (req, res) => {
     var sql = $sql.client.add;
     var data = req.body;
@@ -29,6 +55,19 @@ router.post('/add', (req, res) => {
         } else {
             console.log(result)
             res.send('新增成功')
+        }
+    })
+});
+
+router.post('/addMoney', (req, res) => {
+    var sql = $sql.client.update_money;
+    var data = req.body;
+    conn.query(sql, [data.money, data.client_id], (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result)
+            res.send('客户承担价格增加成功')
         }
     })
 });

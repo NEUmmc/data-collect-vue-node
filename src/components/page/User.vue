@@ -16,8 +16,8 @@
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="password" label="密码"></el-table-column>
       <el-table-column prop="name" label="员工类型"></el-table-column>
-      <el-table-column prop="fin" label="已完成测评客户数"></el-table-column>
-      <el-table-column prop="unfin" label="未完成客户数"></el-table-column>
+      <el-table-column prop="fin" sortable label="已完成测评订单数"></el-table-column>
+      <el-table-column prop="unfin" sortable label="未完成订单数"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <!-- 修改用户名，密码，员工类型可以使用，精力有限只做预留 -->
@@ -66,7 +66,7 @@
       <br />
       <br />
       <el-table size="mini" :data="unfin" style="width: 100%;" height="200">
-        <el-table-column prop="id" label="客户编号"></el-table-column>
+        <el-table-column prop="id" label="订单编号"></el-table-column>
         <el-table-column prop="clientname" label="客户名"></el-table-column>
         <el-table-column prop="sex" label="性别"></el-table-column>
         <el-table-column prop="idcard" label="身份证号"></el-table-column>
@@ -79,7 +79,7 @@
       <br />
       <br />
       <el-table size="mini" :data="half" style="width: 100%;" height="200">
-        <el-table-column prop="id" label="客户编号"></el-table-column>
+        <el-table-column prop="id" label="订单编号"></el-table-column>
         <el-table-column prop="clientname" label="客户名"></el-table-column>
         <el-table-column prop="sex" label="性别"></el-table-column>
         <el-table-column prop="idcard" label="身份证号"></el-table-column>
@@ -92,7 +92,7 @@
       <br />
       <br />
       <el-table size="mini" :data="fin" style="width: 100%;" height="200">
-        <el-table-column prop="id" label="客户编号"></el-table-column>
+        <el-table-column prop="id" label="订单编号"></el-table-column>
         <el-table-column prop="clientname" label="客户名"></el-table-column>
         <el-table-column prop="sex" label="性别"></el-table-column>
         <el-table-column prop="idcard" label="身份证号"></el-table-column>

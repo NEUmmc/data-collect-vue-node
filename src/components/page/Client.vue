@@ -8,12 +8,13 @@
     <br />
     <br />
     <el-table :data="tableData" style="width: 100%;" height="700">
-      <el-table-column prop="id" label="客户编号"></el-table-column>
+      <el-table-column prop="id" label="订单编号"></el-table-column>
       <el-table-column prop="clientname" label="客户名"></el-table-column>
       <el-table-column prop="sex" label="性别"></el-table-column>
       <el-table-column prop="idcard" label="身份证号"></el-table-column>
       <el-table-column prop="phone" label="手机号"></el-table-column>
       <el-table-column prop="source" label="客户来源"></el-table-column>
+      <el-table-column prop="money" label="客户承担价格"></el-table-column>
       
       <el-table-column label="操作">
         <template slot-scope="scope">
