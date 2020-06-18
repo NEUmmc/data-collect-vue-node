@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container" :class="{'collapse-width': sharedState.state.isCollapse}">
       <div class="logo" :class="{'collapse-logo': sharedState.state.isCollapse}">
-        BIG-DATA
+        理颜 · 医美
       </div>
     
     <el-menu default-active="/" background-color="#FAF3EA" active-text-color="#F67E7E" class="el-menu-vertical-demo" router :collapse="sharedState.state.isCollapse">
@@ -91,7 +91,7 @@ export default {
     height: 56px;
     line-height: 56px;
     font-size: 25px;
-    font-weight: bold;
+    
     text-align: center;
     color: white;
     background-color: #FFBE85;
