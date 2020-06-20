@@ -26,7 +26,6 @@
     <el-table
       :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       style="width: 100%;"
-      height="650"
     >
       <el-table-column prop="id" sortable label="订单编号"></el-table-column>
       <el-table-column prop="clientname" label="客户名"></el-table-column>
@@ -54,7 +53,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage"
-      :page-sizes="[12,14,16,tableData.length]"
+      :page-sizes="[10,12,14,tableData.length]"
       :page-size="pagesize"
       layout="total,sizes,prev,pager,next,jumper"
       :total="tableData.length"
@@ -73,7 +72,7 @@ export default {
       tableData: [],
       orginTableData: [],
       currentPage: 1, //默认页码为1
-      pagesize: 12 //默认一页显示12条
+      pagesize: 10 //默认一页显示12条
     };
   },
   mounted() {
@@ -82,7 +81,6 @@ export default {
       this.orginTableData = res;
     });
     this.$post("/api/user/getSource").then(res => {
-      console.log(res);
       this.filterList = res.map(e => {
         return { value: e, text: e };
       });
@@ -113,7 +111,6 @@ export default {
       this.currentPage = currentPage;
     },
     look(index, row) {
-      console.log(row.id);
       this.$router.push({ path: "/table", query: { client_id: row.id } });
     },
     handleDelete(index, row) {

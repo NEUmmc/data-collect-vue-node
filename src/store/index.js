@@ -4,7 +4,7 @@ var store = {
       isCollapse: false
     },
     setAction (newValue) {
-      if (this.debug) console.log('setAction isCollapse', newValue)
+      // if (this.debug) console.log('setAction isCollapse', newValue)
       this.state.isCollapse = newValue
     }
 }

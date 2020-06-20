@@ -63,8 +63,6 @@ export default {
             if (item.id == element.question_id) {
               let result = item.score  + ' ｜ ' + item.answer
               eval("element." + user.colname + "= result");
-
-              console.log(this.tableData);
             }
           });
         });

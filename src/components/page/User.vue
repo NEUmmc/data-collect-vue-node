@@ -20,7 +20,6 @@
     <el-table
       :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
       style="width: 100%"
-      height="650"
     >
       <el-table-column prop="id" sortable label="员工ID"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
@@ -156,13 +155,11 @@ export default {
   },
   mounted() {
     this.$post("/api/user/getUser").then(res1 => {
-      console.log(res1);
       res1.forEach(r => {
         this.$post("/api/client/getFinClient", {
           user: r.id,
           user_type: r.user_type
         }).then(res2 => {
-          console.log(res2);
           let temp = r;
           temp.fin = res2.fin.length;
           temp.unfin = res2.clients - temp.fin;

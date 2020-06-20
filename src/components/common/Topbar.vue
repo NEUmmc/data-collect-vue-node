@@ -26,7 +26,6 @@
         },
         methods: {
             Sidebar (){
-                console.log(this.$isCollapse)
                 if(this.sharedState.state.isCollapse == false){
                     this.sharedState.setAction(true)
                 }else{
