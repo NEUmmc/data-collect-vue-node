@@ -24,7 +24,7 @@ var sqlMap = {
         select:'select * from client',
         select_id:'select * from client where id = ?',
         select_phone:'select * from client where phone like "?%"',
-        add:'insert into client (clientname,sex,phone,idcard,source) values (?,?,?,?,?)',
+        add:'insert into client (clientname,sex,phone,idcard,source,time) values (?,?,?,?,?,?)',
         update_money: 'update client set money = ? where id = ?'
     },
     record: {

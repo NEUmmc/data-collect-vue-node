@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var $sql = require('../db/sqlMap');
+var moment = require('moment')
 
 var conn = mysql.createConnection(db.mysql);
 
@@ -34,7 +35,7 @@ router.post('/getClientById', (req, res) => {
 
 router.post('/getClientByPhone', (req, res) => {
     var sqlStringList = $sql.client.select_phone.split('?');
-    let data = req.body.phone; 
+    let data = req.body.phone;
     var sql = sqlStringList[0] + data + sqlStringList[1]
     conn.query(sql, (err, result) => {
         if (err) {
@@ -49,7 +50,8 @@ router.post('/getClientByPhone', (req, res) => {
 router.post('/add', (req, res) => {
     var sql = $sql.client.add;
     var data = req.body;
-    conn.query(sql, [data.clientname, data.sex, data.phone, data.idcard, data.source], (err, result) => {
+    const time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    conn.query(sql, [data.clientname, data.sex, data.phone, data.idcard, data.source, time], (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -105,7 +107,7 @@ router.post('/getFinClient', (req, res) => {
     var data = req.body;
     var sql1 = $sql.client.select;
     var sqlStringList = $sql.question.get_question.split('?');
-    let user_type = data.user_type; 
+    let user_type = data.user_type;
     var sql2 = sqlStringList[0] + user_type + sqlStringList[1]
     var finClients = [];
     var halfFinClients = [];
@@ -131,7 +133,7 @@ router.post('/getFinClient', (req, res) => {
                                 let temp2 = clients.filter(a => a.id == element.client_id && questions.length > num)
                                 halfFinClients.push(...temp2)
                             });
-                            let finalResult = { half: halfFinClients, fin: finClients , clients: clients.length}
+                            let finalResult = { half: halfFinClients, fin: finClients, clients: clients.length }
                             res.send(finalResult)
                         }
                     })
