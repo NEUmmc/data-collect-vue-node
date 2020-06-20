@@ -7,8 +7,14 @@
     </el-breadcrumb>
     <br />
     <br />
-    <el-button type="danger" plain icon="el-icon-plus" @click="dialogVisible = true">新增员工</el-button>
+
+    <span>
+      查找员工：
+      <el-input style="width:200px" placeholder="请输入用户名" @input="search" v-model="search_username"></el-input>
+    </span>
     <el-button type="danger" icon="el-icon-refresh" @click="clear"></el-button>
+    <el-button type="danger" plain icon="el-icon-plus" @click="dialogVisible = true">新增员工</el-button>
+    
     <br />
     <br />
     <el-table
@@ -19,7 +25,12 @@
       <el-table-column prop="id" sortable label="员工ID"></el-table-column>
       <el-table-column prop="username" label="用户名"></el-table-column>
       <el-table-column prop="password" label="密码"></el-table-column>
-      <el-table-column prop="name" label="员工类型"></el-table-column>
+      <el-table-column
+        prop="name"
+        :filters="filterList"
+        :filter-method="filterHandler"
+        label="员工类型"
+      ></el-table-column>
       <el-table-column prop="fin" sortable label="已完成测评订单数"></el-table-column>
       <el-table-column prop="unfin" sortable label="未完成订单数"></el-table-column>
       <el-table-column label="操作">
@@ -53,7 +64,7 @@
       <br />
       <br />
       <span>用户名：</span>
-      <el-input v-model="username" style="width:400px" placeholder="请输入用户名"></el-input>
+      <el-input v-model="username" style="width:400px" placeholder="请输入用户名" @change="usernameInput"></el-input>
       <br />
       <br />
       <span>密&nbsp;&nbsp;&nbsp;码：</span>
@@ -126,6 +137,7 @@ export default {
     return {
       currentPage: 1, //默认页码为1
       pagesize: 10, //默认一页显示11条
+      search_username: "",
       row_username: "",
       row_usertype: "",
       user_type: "",
@@ -134,7 +146,9 @@ export default {
       dialogVisible: false,
       dialogVisible1: false,
       tableData: [],
+      orginTableData: [], //前端存完整的表，方便搜索
       typeList: [],
+      filterList: [],
       fin: [],
       unfin: [],
       half: []
@@ -153,19 +167,38 @@ export default {
           temp.fin = res2.fin.length;
           temp.unfin = res2.clients - temp.fin;
           this.$post("/api/user/getUserTypeName").then(res3 => {
-            this.typeList = res3;
             res3.forEach(r3 => {
               if (temp.user_type == r3.value) {
                 temp.name = r3.name;
               }
             });
             this.tableData.push(temp);
+            this.orginTableData.push(temp);
           });
         });
       });
     });
+    this.$post("/api/user/getUserTypeName").then(res3 => {
+      this.typeList = res3;
+      res3.forEach(e => {
+        let temp = { text: e.name, value: e.name };
+        this.filterList.push(temp);
+      });
+    });
   },
   methods: {
+    usernameInput() {
+      let temp = this.orginTableData.filter(e => this.username === e.username);
+      if (temp.length) {
+        this.$message.warning("用户名已存在,请重新输入");
+        this.username = "";
+      }
+    },
+    search() {
+      this.tableData = this.orginTableData.filter(e =>
+        e.username.match(this.search_username)
+      );
+    },
     handleSizeChange(size) {
       //一页显示多少条
       this.pagesize = size;
@@ -196,6 +229,10 @@ export default {
       }).then(res => {
         this.unfin = res;
       });
+    },
+    filterHandler(value, row, column) {
+      const property = column["property"];
+      return row[property] === value;
     },
     add() {
       if (this.username == "" || this.password == "" || this.user_type == "") {
