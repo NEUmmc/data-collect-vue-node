@@ -38,7 +38,7 @@
         :filter-method="filterHandler"
         label="客户来源"
       ></el-table-column>
-      <el-table-column prop="money" label="客户承担价格"></el-table-column>
+      <el-table-column prop="money" label="客户成单价格"></el-table-column>
       <el-table-column prop="time" sortable label="时间"></el-table-column>
 
       <el-table-column label="操作">

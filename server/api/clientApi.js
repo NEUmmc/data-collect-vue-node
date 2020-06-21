@@ -70,7 +70,7 @@ router.post('/addMoney', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.send('客户承担价格增加成功')//暂时不做更改可能出错
+            res.send('客户成单价格增加成功')//暂时不做更改可能出错
         }
     })
 });
