@@ -10,18 +10,19 @@ var conn = mysql.createConnection(db.mysql);
 conn.connect();
 
 router.post('/getClient', (req, res) => {
+    console.log('触发的路由：api/client/getClient')
     var sql = $sql.client.select;
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
         } else {
-
             res.send(result)
         }
     })
 });
 
 router.post('/getClientById', (req, res) => {
+    console.log('触发的路由：api/client/getClientById')
     var sql = $sql.client.select_id;
     var data = req.body;
     conn.query(sql, data.id, (err, result) => {
@@ -34,6 +35,7 @@ router.post('/getClientById', (req, res) => {
 });
 
 router.post('/getClientByPhone', (req, res) => {
+    console.log('触发的路由：api/client/getClientByPhone')
     var sqlStringList = $sql.client.select_phone.split('?');
     let data = req.body.phone;
     var sql = sqlStringList[0] + data + sqlStringList[1]
@@ -41,13 +43,13 @@ router.post('/getClientByPhone', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send(result)
         }
     })
 });
 
 router.post('/add', (req, res) => {
+    console.log('触发的路由：api/client/add')
     var sql = $sql.client.add;
     var data = req.body;
     const time = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
@@ -55,26 +57,26 @@ router.post('/add', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send('新增成功')//暂时不做更改可能出错
         }
     })
 });
 
 router.post('/addMoney', (req, res) => {
+    console.log('触发的路由：api/client/addMoney')
     var sql = $sql.client.update_money;
     var data = req.body;
     conn.query(sql, [data.money, data.client_id], (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send('客户承担价格增加成功')//暂时不做更改可能出错
         }
     })
 });
 
 router.post('/getUnfinClient', (req, res) => {
+    console.log('触发的路由：api/client/getUnfinClient')
     var sql = $sql.record.select_userid;
     var data = req.body;
     var sql1 = $sql.client.select;
@@ -83,7 +85,6 @@ router.post('/getUnfinClient', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             conn.query(sql1, (err, clients) => {
                 if (err) {
                     console.log(err);
@@ -103,6 +104,7 @@ router.post('/getUnfinClient', (req, res) => {
 });
 
 router.post('/getFinClient', (req, res) => {
+    console.log('触发的路由：api/client/getFinClient')
     var sql = $sql.record.select_userid;
     var data = req.body;
     var sql1 = $sql.client.select;
@@ -116,12 +118,10 @@ router.post('/getFinClient', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             conn.query(sql1, (err, clients) => {
                 if (err) {
                     console.log(err);
                 } else {
-
                     conn.query(sql2, (err, questions) => {
                         if (err) {
                             console.log(err);

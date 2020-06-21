@@ -9,19 +9,18 @@ var conn = mysql.createConnection(db.mysql);
 conn.connect();
 
 router.post('/getTable', (req, res) => {
+    console.log('触发的路由：api/table/getTable')
     var sql = $sql.table.select;
-    console.log('触发的路由：/getTable')
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result);
             result.forEach(e => {
-                if(e.category_name === e.question){
-                    e.question =''
+                if (e.category_name === e.question) {
+                    e.question = ''
                 }
-                if(e.weight2 === e.weight1){
-                    e.weight2 =''
+                if (e.weight2 === e.weight1) {
+                    e.weight2 = ''
                 }
             })
             res.send(result)
@@ -30,19 +29,19 @@ router.post('/getTable', (req, res) => {
 });
 
 router.post('/getScore', (req, res) => {
+    console.log('触发的路由：api/table/getScore')
     var sql = $sql.record.select_clientid;
     var data = req.body;
     const querystring = require("querystring");
-    conn.query(sql, data.client_id,(err, result) => {
+    conn.query(sql, data.client_id, (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result);
             final = []
             temp = []
-            result.forEach((element,index) => {
+            result.forEach((element, index) => {
                 username = element.username;
-                colname ='score'+index
+                colname = 'score' + index
                 answers = element.answer.split(',')
                 answers.forEach(element => {
                     temp.push(querystring.parse(element))

@@ -9,17 +9,18 @@ var conn = mysql.createConnection(db.mysql);
 conn.connect();
 
 router.post('/login', (req, res) => {
+    console.log('触发的路由：api/admin/login')
     var sql = $sql.admin.select;
     var data = req.body
-    conn.query(sql,[data.username],(err, result) => {
+    conn.query(sql, [data.username], (err, result) => {
         if (err) {
             console.log(err);
-        }else{
-            if(result.length == 0){
+        } else {
+            if (result.length == 0) {
                 res.send('用户名错误')
-            }else if(result[0].password != data.password){
+            } else if (result[0].password != data.password) {
                 res.send('密码错误')
-            }else{
+            } else {
                 res.send('正确')
             }
         }

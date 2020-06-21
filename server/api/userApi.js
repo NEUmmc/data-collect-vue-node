@@ -9,6 +9,7 @@ var conn = mysql.createConnection(db.mysql);
 conn.connect();
 
 router.post('/login', (req, res) => {
+    console.log('触发的路由：api/user/login')
     var sql = $sql.user.select_username;
     var data = req.body
     conn.query(sql, [data.username], (err, result) => {
@@ -17,9 +18,9 @@ router.post('/login', (req, res) => {
         } else {
             console.log(result)
             if (result.length == 0) {
-                res.send({msg:'用户名错误'})
+                res.send({ msg: '用户名错误' })
             } else if (result[0].password != data.password) {
-                res.send({msg:'密码错误'})
+                res.send({ msg: '密码错误' })
             } else {
                 user_type = result[0].user_type
                 id = result[0].id
@@ -31,42 +32,40 @@ router.post('/login', (req, res) => {
 });
 
 router.post('/addUser', (req, res) => {
+    console.log('触发的路由：api/user/addUser')
     var sql = $sql.user.add;
     var data = req.body;
-    conn.query(sql,[data.username, data.password, data.user_type], (err, result) => {
+    conn.query(sql, [data.username, data.password, data.user_type], (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send('新增成功')
         }
     })
 });
 
 router.post('/getUser', (req, res) => {
-    console.log('触发对路由：' + '/getUser')
+    console.log('触发的路由：api/user/getUser')
     var sql = $sql.user.select;
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send(result)
         }
     })
 });
 
 router.post('/getUserTypeName', (req, res) => {
-    // console.log('触发对路由：' + '/getUserTypeName')
+    console.log('触发的路由：api/user/getUserTypeName')
     var sql = $sql.user_type.select;
     var final = []
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             result.forEach(x => {
-                let temp = {value:x.id, name:x.name}
+                let temp = { value: x.id, name: x.name }
                 final.push(temp)
             })
             res.send(final)
@@ -75,6 +74,7 @@ router.post('/getUserTypeName', (req, res) => {
 });
 
 router.post('/getSource', (req, res) => {
+    console.log('触发的路由：api/user/getSource')
     var sql = $sql.user.select;
     var lst = ['无'];
     conn.query(sql, (err, result) => {
@@ -89,6 +89,7 @@ router.post('/getSource', (req, res) => {
 });
 
 router.post('/getQuestion', (req, res) => {
+    console.log('触发的路由：api/user/getQuestion')
     var sqlStringList = $sql.question.get_question.split('?');//玄学bug，可能是update后表格出现了玄学变化,导致？传参数死活实现不了
     var user = req.body.user
     var sql = sqlStringList[0] + user + sqlStringList[1]
@@ -96,13 +97,13 @@ router.post('/getQuestion', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send(result);
         }
     })
 });
 
 router.post('/getAnswer', (req, res) => {
+    console.log('触发的路由：api/user/getAnswer')
     var sqlStringList = $sql.question.get_answer.split('?');//玄学bug，问题同上
     var user = req.body.user
     var sql = sqlStringList[0] + user + sqlStringList[1]
@@ -110,7 +111,6 @@ router.post('/getAnswer', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             let items = []
             let temp = []
             for (let i = 0; i < result.length; i++) {
@@ -128,13 +128,13 @@ router.post('/getAnswer', (req, res) => {
                     temp = []
                 }
             }
-            console.log(items)
             res.send(items)
         }
     })
 });
 
 router.post('/getOpQuestion', (req, res) => {
+    console.log('触发的路由：api/user/getOpQuestion')
     var sqlStringList = $sql.question.get_op_question.split('?');//玄学bug，可能是update后表格出现了玄学变化,导致？传参数死活实现不了
     var user = req.body.user
     var sql = sqlStringList[0] + user + sqlStringList[1]
@@ -142,13 +142,13 @@ router.post('/getOpQuestion', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             res.send(result);
         }
     })
 });
 
 router.post('/getOpAnswer', (req, res) => {
+    console.log('触发的路由：api/user/getOpAnswer')
     var sqlStringList = $sql.question.get_op_answer.split('?');//玄学bug，问题同上
     var user = req.body.user
     var sql = sqlStringList[0] + user + sqlStringList[1]
@@ -156,7 +156,6 @@ router.post('/getOpAnswer', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             let items = []
             let temp = []
             for (let i = 0; i < result.length; i++) {
@@ -174,22 +173,21 @@ router.post('/getOpAnswer', (req, res) => {
                     temp = []
                 }
             }
-            console.log(items)
             res.send(items)
         }
     })
 });
 
 router.post('/getChecked', (req, res) => {
+    console.log('触发的路由：api/user/getChecked')
     var sql = $sql.record.find_record;
     var data = req.body
     conn.query(sql, [data.user_id, data.client_id], (err, result) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             if (result.length == 0) {
-                res.send({msg:'没有记录'})
+                res.send({ msg: '没有记录' })
             } else {
                 const querystring = require("querystring");
                 answers = result[0].answer.split(',')
@@ -204,6 +202,7 @@ router.post('/getChecked', (req, res) => {
 });
 
 router.post('/submit', (req, res) => {
+    console.log('触发的路由：api/user/submit')
     var sql = $sql.record.save_answer;
     var sql1 = $sql.record.update_answer;
     var sql2 = $sql.record.find_record;
@@ -211,7 +210,6 @@ router.post('/submit', (req, res) => {
     var record_id = ''
     const querystring = require("querystring");
     let results = ''
-    console.log('触发路由为submit', data)
     data.result.forEach((element, index) => {
         if (index == data.result.length - 1) {
             results += querystring.stringify(element)
@@ -223,15 +221,13 @@ router.post('/submit', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            console.log(result)
             if (result.length != 0) {
                 record_id = result[0].id
                 conn.query(sql1, [results, record_id], (err, result) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(result)
-                        res.send({msg:'success'})
+                        res.send({ msg: 'success' })
                     }
                 })
             } else {
@@ -239,8 +235,7 @@ router.post('/submit', (req, res) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(result)
-                        res.send({msg:'success'})
+                        res.send({ msg: 'success' })
                     }
                 })
             }

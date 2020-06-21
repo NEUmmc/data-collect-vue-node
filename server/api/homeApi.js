@@ -9,6 +9,7 @@ var conn = mysql.createConnection(db.mysql);
 conn.connect();
 
 router.post('/clientNum', (req, res) => {
+    console.log('触发的路由：api/home/clientNum')
     var sql = $sql.client.select;
     conn.query(sql, (err, result) => {
         if (err) {
