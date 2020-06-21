@@ -8,18 +8,12 @@
     </el-breadcrumb>
     <br />
     <br />
-    <el-table
-      id="out-table"
-      :data="tableData"
-      border
-      :span-method="objectSpanMethod"
-      height="650"
-    >
-      <el-table-column  prop="id" label="序号"></el-table-column>
-      <el-table-column  prop="category_name" label="问题类别"></el-table-column>
-      <el-table-column  prop="question" label="问题细节"></el-table-column>
-      <el-table-column  prop="weight2" label="二级权重"></el-table-column>
-      <el-table-column  prop="weight1" label="一级权重"></el-table-column>
+    <el-table id="out-table" :data="tableData" border :span-method="objectSpanMethod" height="650">
+      <el-table-column prop="id" label="序号"></el-table-column>
+      <el-table-column prop="category_name" label="问题类别"></el-table-column>
+      <el-table-column prop="question" label="问题细节"></el-table-column>
+      <el-table-column prop="weight2" label="二级权重"></el-table-column>
+      <el-table-column prop="weight1" label="一级权重"></el-table-column>
       <el-table-column
         v-for="item in answers"
         :key="item.username"
@@ -32,7 +26,6 @@
     <br />
     <br />
     <el-button type="danger" @click="getExcel">导出</el-button>
-    
   </div>
 </template>
 
@@ -48,48 +41,51 @@ export default {
     };
   },
   mounted() {
-    //得到问题项目
-    this.$post("/api/table/getTable").then(res => {
-      this.tableData = res;
-    });
-    //得到分数
-    this.$post("/api/table/getScore",{
-      client_id:this.$route.query.client_id
-    }).then(res => {
-      this.answers = res;
-      this.answers.forEach(user => {
-        this.tableData.forEach(element => {
-          user.answer.forEach((item, index) => {
-            if (item.id == element.question_id) {
-              let result = item.score  + ' ｜ ' + item.answer
-              eval("element." + user.colname + "= result");
-            }
+    this.getTable().then(r => {
+      //得到分数
+      this.$post("/api/table/getScore", {
+        client_id: this.$route.query.client_id
+      }).then(res => {
+        this.answers = res;
+        this.answers.forEach(user => {
+          this.tableData.forEach(element => {
+            user.answer.forEach((item, index) => {
+              if (item.id == element.question_id) {
+                let result = item.score + " ｜ " + item.answer;
+                eval("element." + user.colname + "= result");
+              }
+            });
           });
         });
-      });
-      //求和导出小计
-      let sum = 0;
-      let count = 0;
-      let temp = 0;
-      this.tableData.forEach((element, index) => {
-        for (let i = 0; i < this.answers.length; i++) {
-          eval("temp =" + "element.score" + i);
-          if (temp != undefined) {
-            sum += parseInt(temp);
-            count++;
+        //求和导出小计
+        let sum = 0;
+        let count = 0;
+        let temp = 0;
+        this.tableData.forEach((element, index) => {
+          for (let i = 0; i < this.answers.length; i++) {
+            eval("temp =" + "element.score" + i);
+            if (temp != undefined) {
+              sum += parseInt(temp);
+              count++;
+            }
           }
-        }
-        //分母不能为零
-        if (count != 0) {
-          element.sum = sum / count;
-        }
-        sum = 0;
-        count = 0;
+          //分母不能为零
+          if (count != 0) {
+            element.sum = sum / count;
+          }
+          sum = 0;
+          count = 0;
+        });
       });
     });
   },
   methods: {
-    
+    async getTable() {
+      //得到问题项目，async await 解决回调地狱
+      await this.$post("/api/table/getTable").then(res => {
+        this.tableData = res;
+      });
+    },
     //定义导出Excel表格事件
     getExcel() {
       /* generate workbook object from table */
