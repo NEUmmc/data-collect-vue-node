@@ -17,9 +17,9 @@ router.post('/login', (req, res) => {
         } else {
             console.log(result)
             if (result.length == 0) {
-                res.send('用户名错误')
+                res.send({msg:'用户名错误'})
             } else if (result[0].password != data.password) {
-                res.send('密码错误')
+                res.send({msg:'密码错误'})
             } else {
                 user_type = result[0].user_type
                 id = result[0].id
@@ -189,7 +189,7 @@ router.post('/getChecked', (req, res) => {
         } else {
             console.log(result)
             if (result.length == 0) {
-                res.send('没有记录')
+                res.send({msg:'没有记录'})
             } else {
                 const querystring = require("querystring");
                 answers = result[0].answer.split(',')
@@ -231,7 +231,7 @@ router.post('/submit', (req, res) => {
                         console.log(err);
                     } else {
                         console.log(result)
-                        res.send('success')
+                        res.send({msg:'success'})
                     }
                 })
             } else {
@@ -240,7 +240,7 @@ router.post('/submit', (req, res) => {
                         console.log(err);
                     } else {
                         console.log(result)
-                        res.send('success')
+                        res.send({msg:'success'})
                     }
                 })
             }
