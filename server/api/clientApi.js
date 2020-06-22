@@ -57,7 +57,7 @@ router.post('/add', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.send('新增成功')//暂时不做更改可能出错
+            res.send({msg:'新增成功'})
         }
     })
 });
@@ -70,7 +70,7 @@ router.post('/addMoney', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.send('客户成单价格增加成功')//暂时不做更改可能出错
+            res.send({msg:'客户成单价格增加成功'})
         }
     })
 });
