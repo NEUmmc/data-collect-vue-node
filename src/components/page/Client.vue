@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/main' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户</el-breadcrumb-item>
+      <el-breadcrumb-item>客户</el-breadcrumb-item>
     </el-breadcrumb>
     <br />
     <br />

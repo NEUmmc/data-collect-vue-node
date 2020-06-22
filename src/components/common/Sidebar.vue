@@ -46,7 +46,7 @@ export default {
                 subs: [
                     {
                     index: '/client',
-                    title: '用户报表'
+                    title: '客户报表'
                     },
                     {
                     index: '/user',

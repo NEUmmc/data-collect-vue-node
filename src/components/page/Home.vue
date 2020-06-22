@@ -14,7 +14,7 @@
         <div class="box1">
           <img :src="imgclient" style="width:150px" />
           <div class="box2">
-            <span>客户总数:</span>
+            <span>订单总数:</span>
             <span style="font-size:25px">{{clientSum}}</span>
           </div>
         </div>
