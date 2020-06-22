@@ -21,6 +21,7 @@
       @change="search">
     </el-date-picker>
     </span>
+    <el-button type="danger" icon="el-icon-refresh" @click="clear"></el-button>
     <br />
     <br />
     <el-table
@@ -63,6 +64,7 @@
 
 <script>
 export default {
+  inject: ["reload"],
   data() {
     return {
       value:'',
@@ -87,6 +89,9 @@ export default {
     });
   },
   methods: {
+    clear() {
+      this.reload();
+    },
     search() {
       let timelist = []
       if(!this.value){
