@@ -4,7 +4,7 @@
         理颜 · 医美
       </div>
     
-    <el-menu default-active="/" background-color="#FAF3EA" active-text-color="#F67E7E" class="el-menu-vertical-demo" router :collapse="sharedState.state.isCollapse">
+    <el-menu :default-active="$route.path" background-color="#FAF3EA" active-text-color="#F67E7E" class="el-menu-vertical-demo" router :collapse="sharedState.state.isCollapse">
         <!-- 如果有子菜单 -->  
         <template v-for="item in items">
             <template v-if="item.subs">
@@ -58,9 +58,7 @@ export default {
       };
     },
     computed:{
-      onRoutes(){
-        return this.$route.path.replace('/','');
-      }
+
     },
     methods: {
 

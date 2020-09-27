@@ -31,6 +31,29 @@
       ></el-input>
       <el-button style="width:20rem" type="danger" @click="login">登录</el-button>
     </div>
+
+    <!-- tip栏 -->
+    <transition-group name="fade">                       
+      <div key="1" v-if="tipShow" class="tip" @click="showTip"></div>
+      <div key="2" v-if="tipShow" class="font" @click="showTip">Tip</div>
+    </transition-group>
+    
+    <!-- 提示内容 -->
+    <el-dialog
+      title="小提示"
+      :visible.sync="dialogVisible"
+      width="35%"
+      :before-close="handleClose"
+      :close-on-click-modal="false"
+      class="dia"
+    >
+      <p>网站不涉及任何公司内部数据，只是将个人负责工作部分抽出做栗子QAQ</p>
+      <p>UI配色采用<strong>Sketch</strong>完成,强烈推荐给各位小伙伴</p>
+      <p>用户名：admin 密码：admin</p>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="danger" @click="know">我知道啦～</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -38,11 +61,28 @@
 export default {
   data() {
     return {
+      tipShow: false,
+      dialogVisible: true,
       username: "",
       password: ""
     };
   },
   methods: {
+    know(){
+      this.dialogVisible = false
+      this.tipShow = true
+    },
+    showTip(){
+      this.dialogVisible = true
+      this.tipShow = false
+    },
+    handleClose(done) {
+      this.$notify({
+          title: '不可关闭',
+          message: '请确保阅读过提示内容后，点击‘我知道啦',
+          type: 'warning'
+      });
+    },
     login() {
       if (this.username == "") {
         this.$message.error("请输入用户名~");
@@ -71,7 +111,55 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+.fade-enter,.fade-leave-to{
+  opacity: 0;
+}
+.fade-enter-active,.fade-leave-active{
+  transition: opacity .3s;
+}
+.dia{
+  p{
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+}
+.tip{
+  border-radius: 50px;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
+  box-shadow: 0px 1px 1px 0px rgba(59, 58, 58, 0.5);
+  width: 100px;
+  height: 100px;
+  animation: rotate 2s linear infinite;
+}
+.tip:hover{
+  cursor:pointer;
+}
+.font:hover{
+  cursor: pointer;
+}
+.font{
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  font-size: 20px;
+  margin: 35px 35px;
+  font-weight: bolder;
+  color: white;
+}
+@keyframes rotate {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+
 .title{
   font-size: 18px;
 }
